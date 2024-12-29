@@ -6,6 +6,7 @@
 
 #include "IOperand.interface.hpp"
 #include "Factory.class.hpp"
+#include "Exceptions.hpp"
 
 #include <iostream>
 
@@ -24,7 +25,7 @@ public:
             _type = type;
             _strValue = std::to_string(value);
         }else {
-            throw std::invalid_argument("Overfflow");
+            throw OverfflowException("Overfflow/Undefflow");
         }
     }
 
@@ -46,14 +47,6 @@ public:
 		delete factory;
 		return newOperand;
 
-        // switch (resultType) {
-        //     case Int8: return new Operand<int8_t>(static_cast<int8_t>(_value) + std::stoi(rhs.toString()), Int8);
-        //     case Int16: return new Operand<int16_t>(static_cast<int16_t>(_value) + std::stoi(rhs.toString()), Int16);
-        //     case Int32: return new Operand<int32_t>(static_cast<int32_t>(_value) + std::stoi(rhs.toString()), Int32);
-        //     case Float: return new Operand<float>(static_cast<float>(_value) + std::stof(rhs.toString()), Float);
-        //     case Double: return new Operand<double>(static_cast<double>(_value) + std::stod(rhs.toString()), Double);
-        //     default: throw std::invalid_argument("Invalid operand type");
-        // }
     }
 
     IOperand const* operator-(IOperand const& rhs) const override {
@@ -65,15 +58,6 @@ public:
 		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(v1 - v2));
 		delete factory;
 		return newOperand;
-
-        // switch (resultType) {
-        //     case Int8: return new Operand<int8_t>(static_cast<int8_t>(_value) - std::stoi(rhs.toString()), Int8);
-        //     case Int16: return new Operand<int16_t>(static_cast<int16_t>(_value) - std::stoi(rhs.toString()), Int16);
-        //     case Int32: return new Operand<int32_t>(static_cast<int32_t>(_value) - std::stoi(rhs.toString()), Int32);
-        //     case Float: return new Operand<float>(static_cast<float>(_value) - std::stof(rhs.toString()), Float);
-        //     case Double: return new Operand<double>(static_cast<double>(_value) - std::stod(rhs.toString()), Double);
-        //     default: throw std::invalid_argument("Invalid operand type");
-        // }
     }
 
     IOperand const* operator*(IOperand const& rhs) const override {
@@ -85,16 +69,6 @@ public:
 		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(v1 * v2));
 		delete factory;
 		return newOperand;
-        
-        
-        // switch (resultType) {
-        //     case Int8: return new Operand<int8_t>(static_cast<int8_t>(_value) * std::stoi(rhs.toString()), Int8);
-        //     case Int16: return new Operand<int16_t>(static_cast<int16_t>(_value) * std::stoi(rhs.toString()), Int16);
-        //     case Int32: return new Operand<int32_t>(static_cast<int32_t>(_value) * std::stoi(rhs.toString()), Int32);
-        //     case Float: return new Operand<float>(static_cast<float>(_value) * std::stof(rhs.toString()), Float);
-        //     case Double: return new Operand<double>(static_cast<double>(_value) * std::stod(rhs.toString()), Double);
-        //     default: throw std::invalid_argument("Invalid operand type");
-        // }
     }
 
     IOperand const* operator/(IOperand const& rhs) const override {
@@ -111,17 +85,6 @@ public:
 		delete factory;
 		return newOperand;
 
-
-
-
-        // switch (resultType) {
-        //     case Int8: return new Operand<int8_t>(static_cast<int8_t>(_value) / std::stoi(rhs.toString()), Int8);
-        //     case Int16: return new Operand<int16_t>(static_cast<int16_t>(_value) / std::stoi(rhs.toString()), Int16);
-        //     case Int32: return new Operand<int32_t>(static_cast<int32_t>(_value) / std::stoi(rhs.toString()), Int32);
-        //     case Float: return new Operand<float>(static_cast<float>(_value) / std::stof(rhs.toString()), Float);
-        //     case Double: return new Operand<double>(static_cast<double>(_value) / std::stod(rhs.toString()), Double);
-        //     default: throw std::invalid_argument("Invalid operand type");
-        // }
     }
 
     IOperand const* operator%(IOperand const& rhs) const override {
@@ -136,15 +99,6 @@ public:
 		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(std::fmod(v1 , v2)));
 		delete factory;
 		return newOperand;
-
-        // switch (resultType) {
-        //     case Int8: return new Operand<int8_t>(static_cast<int8_t>(_value) % std::stoi(rhs.toString()), Int8);
-        //     case Int16: return new Operand<int16_t>(static_cast<int16_t>(_value) % std::stoi(rhs.toString()), Int16);
-        //     case Int32: return new Operand<int32_t>(static_cast<int32_t>(_value) % std::stoi(rhs.toString()), Int32);
-        //     case Float: return new Operand<float>(std::fmod(static_cast<float>(_value), std::stof(rhs.toString())), Float);
-        //     case Double: return new Operand<double>(std::fmod(static_cast<double>(_value), std::stod(rhs.toString())), Double);
-        //     default: throw std::invalid_argument("Invalid operand type");
-        // }
     }
 
     std::string const& toString() const override {
