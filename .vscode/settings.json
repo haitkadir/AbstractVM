@@ -63,6 +63,7 @@
         "utility": "cpp",
         "vector": "cpp",
         "*.tpp": "cpp",
-        "__memory": "cpp"
+        "__memory": "cpp",
+        "cfenv": "cpp"
     }
 }
