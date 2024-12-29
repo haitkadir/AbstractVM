@@ -2,57 +2,36 @@
 #define __FACTORY_H__
 
 #include <vector>
-#include <string>
+// #include <string>
 
-#include "IOperand.interface.hpp"
-// #include "Operand.tpp"
+#include "Operand.hpp"
 
 class OperandFactory {
 private:
-    using CreateFunction = IOperand const* (OperandFactory::*)(std::string const&) const;
-
+    typedef  IOperand const* (OperandFactory::*CreateFunction)(std::string const&) const;
     std::vector<CreateFunction> _createFunctions;
 
-    OperandFactory() {
-        _createFunctions = {
-            &OperandFactory::createInt8,
-            &OperandFactory::createInt16,
-            &OperandFactory::createInt32,
-            &OperandFactory::createFloat,
-            &OperandFactory::createDouble
-        };
-    }
-
 public:
-    static OperandFactory& getInstance() {
-        static OperandFactory instance;
-        return instance;
-    }
+    // Default constructor
+    OperandFactory();
 
-    IOperand const* createOperand(eOperandType type, std::string const& value) const {
-        return (this->*_createFunctions[type])(value);
-    }
+    OperandFactory(const OperandFactory& other) = default;
+    OperandFactory& operator=(const OperandFactory& other) = default;
+    ~OperandFactory() = default;
+
+
+    IOperand const* createOperand(eOperandType type, std::string const& value) const;
 
 private:
-    IOperand const* createInt8(std::string const& value) const {
-        return new Operand<int8_t>(std::stoi(value), Int8);
-    }
+    IOperand const* createInt8(std::string const& value) const;
 
-    IOperand const* createInt16(std::string const& value) const {
-        return new Operand<int16_t>(std::stoi(value), Int16);
-    }
+    IOperand const* createInt16(std::string const& value) const;
 
-    IOperand const* createInt32(std::string const& value) const {
-        return new Operand<int32_t>(std::stoi(value), Int32);
-    }
+    IOperand const* createInt32(std::string const& value) const;
 
-    IOperand const* createFloat(std::string const& value) const {
-        return new Operand<float>(std::stof(value), Float);
-    }
+    IOperand const* createFloat(std::string const& value) const;
 
-    IOperand const* createDouble(std::string const& value) const {
-        return new Operand<double>(std::stod(value), Double);
-    }
+    IOperand const* createDouble(std::string const& value) const;
 };
 
 

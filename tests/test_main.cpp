@@ -1,19 +1,34 @@
 #include "../include/Factory.class.hpp"
 #include <iostream>
+#include <fcntl.h>
+
+
+void memecheck(){
+    system("leaks a.out");
+}
 
 int main() {
-    OperandFactory& factory = OperandFactory::getInstance();
+    // atexit(memcheck);
+    try{
+        OperandFactory typeFactory;
 
-    IOperand const* op1 = factory.createOperand(Int32, "42");
-    IOperand const* op2 = factory.createOperand(Float, "3.14");
+        IOperand const* op1 = typeFactory.createOperand(Int16, "100"); // should throw overflow exception
+        IOperand const* op2 = typeFactory.createOperand(Int8, "100");
 
-    IOperand const* result = *op1 + *op2;
+        std::cout << "op1: " << op1->toString() << "\n";
+        std::cout << "op2: " << op2->toString() << "\n";
 
-    std::cout << "Result: " << result->toString() << "\n";
+        IOperand const* result = *op1 + *op2;
 
-    delete op1;
-    delete op2;
-    delete result;
+        std::cout << "Result: " << result->toString() << "\n";
+        std::cout << "Result Precision: " << result->getPrecision() << "\n";
+        delete op1;
+        delete op2;
+        delete result;
+    } catch (const std::exception &e){
+        std::cout << e.what() << std::endl;
+    }
+
 
     return 0;
 }
