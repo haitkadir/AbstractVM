@@ -19,13 +19,34 @@ private:
     std::string     _strValue;
 
 public:
-    Operand(T value, eOperandType type){
+    Operand(): _value(), _type(Int8), _strValue("0")
+    {
+    }
+    Operand(const Operand& other) {
+        this->_value = static_cast<T>(std::stod(other.toString()));
+        this->_type = other.getType();
+        this->_strValue = other.toString();
+    }
+    Operand& operator=(const Operand& other){
+        if (this != &other){
+            this->_value = static_cast<T>(std::stod(other.toString()));
+            this->_type = other.getType();
+            this->_strValue = other.toString();
+        }
+        return *this;
+    }
+    ~Operand()
+    {
+    }
+
+
+    Operand(std::string const &value, eOperandType type){
         if(!isoverfflow(type, value)){
-            _value = value;
+            _value = static_cast<T>(std::stod(value));
             _type = type;
-            _strValue = std::to_string(value);
+            _strValue = std::to_string(static_cast<T>(std::stod(value)));
         }else {
-            throw OverfflowException("Overfflow/Undefflow");
+            throw OverfflowException("Error: Out Of Range");
         }
     }
 
@@ -73,7 +94,7 @@ public:
 
     IOperand const* operator/(IOperand const& rhs) const override {
         if (std::stod(rhs.toString()) == 0) { // re implement the check Division by zero logic
-            throw std::runtime_error("Division by zero");
+            throw DiviModuByZeroException("Division by zero");
         }
 
         double v1 = (static_cast<double>(_value));
@@ -89,7 +110,7 @@ public:
 
     IOperand const* operator%(IOperand const& rhs) const override {
         if (std::stod(rhs.toString()) == 0) { // re implement this check Modulo by zero logic
-            throw std::runtime_error("Modulo by zero");
+            throw DiviModuByZeroException("Modulo by zero");
         }
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
@@ -105,7 +126,18 @@ public:
         return _strValue;
     }
 private:
-    bool    isoverfflow(eOperandType type, T value){
+    bool    isoverfflow(eOperandType type, std::string const &input){
+        double  value;
+        try{
+            if (type == Float)
+                value = std::stof(input);
+            else
+                value = std::stod(input);
+        }  catch (const std::out_of_range&) {
+            return true;
+        } catch (const std::invalid_argument&) {
+            return true;
+        }
         switch (type)
         {
             case Int8: return (value < std::numeric_limits<int8_t>::min() || value > std::numeric_limits<int8_t>::max()) ? true: false;
@@ -116,9 +148,6 @@ private:
             default:
                 return false;
         }
-    }
-    bool    iszerovalue(eOperandType type, T value){
-
     }
 
 };

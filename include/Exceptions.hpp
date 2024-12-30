@@ -12,7 +12,17 @@ private:
 public:
     OverfflowException(const char* msg);
 
-    const char* what() const throw();
+    const char* what() const noexcept override;
+};
+
+class   DiviModuByZeroException : public std::exception {
+private:
+    std::string message;
+
+public:
+    DiviModuByZeroException(const char* msg);
+
+    const char* what() const noexcept override;
 };
 
 

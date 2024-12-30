@@ -12,13 +12,13 @@ int main() {
     try{
         OperandFactory typeFactory;
 
-        IOperand const* op1 = typeFactory.createOperand(Float, "1.3"); // should throw overflow exception
-        IOperand const* op2 = typeFactory.createOperand(Int8, "1");
+        IOperand const* op1 = typeFactory.createOperand(Float, "10.1");
+        IOperand const* op2 = typeFactory.createOperand(Int8, "10");
 
         std::cout << "op1   : " << op1->toString() << "\n";
         std::cout << "op2: " << op2->toString() << "\n";
 
-        IOperand const* result = *op1 % *op2;
+        IOperand const* result = *op1 * *op2;
 
         std::cout << "Result: " << result->toString() << "\n";
         std::cout << "Result Precision: " << result->getPrecision() << "\n";

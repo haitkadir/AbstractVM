@@ -23,21 +23,21 @@ IOperand const* OperandFactory::createOperand(eOperandType type, std::string con
 }
 
 IOperand const* OperandFactory::createInt8(std::string const& value) const {
-    return new Operand<int8_t>(std::stoi(value), Int8);
+    return new Operand<int8_t>(value, Int8);
 }
 
 IOperand const* OperandFactory::createInt16(std::string const& value) const {
-    return new Operand<int16_t>(std::stoi(value), Int16);
+    return new Operand<int16_t>(value, Int16);
 }
 
 IOperand const* OperandFactory::createInt32(std::string const& value) const {
-    return new Operand<int32_t>(std::stoi(value), Int32);
+    return new Operand<int32_t>(value, Int32);
 }
 
 IOperand const* OperandFactory::createFloat(std::string const& value) const {
-    return new Operand<float>(std::stof(value), Float);
+    return new Operand<float>(value, Float);
 }
 
 IOperand const* OperandFactory::createDouble(std::string const& value) const {
-    return new Operand<double>(std::stod(value), Double);
+    return new Operand<double>(value, Double);
 }
