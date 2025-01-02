@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        ".env*": "dotenv",
         "__bit_reference": "cpp",
         "__config": "cpp",
         "__debug": "cpp",
@@ -64,6 +65,9 @@
         "vector": "cpp",
         "*.tpp": "cpp",
         "__memory": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "stack": "cpp"
     }
 }
