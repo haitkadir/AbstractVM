@@ -9,10 +9,10 @@ TARGET = AbstractVM
 
 all: $(TARGET)
 
-$(TARGET): $(OBJECTS)
+$(TARGET): $(OBJECTS) 
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(wildcard $(INCDIR)/*.hpp)
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 

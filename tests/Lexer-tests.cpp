@@ -1,8 +1,6 @@
 #include <iostream>
 #include "../include/Lexer.hpp"
 #include <fstream>
-#include <sstream>
-#include <string>
 
 std::string readFileToString(const std::string& filePath) {
     std::ifstream file(filePath); // Open the file
@@ -21,13 +19,15 @@ int main()
     try{
         Lexer lexer;
         std::string filePath = "../programs/exemple.avm";
+
         std::string content = readFileToString(filePath);
         std::vector<Token> tokens = lexer.tokenize(content);
         std::cout << "===================================================================================================" << std::endl;;
         for (auto token : tokens){
             std::cout << "{" << std::endl;
             std::cout << "  type : " << token.type << std::endl;
-            std::cout << "  value: " << token.value << std::endl;
+            std::cout << "  value:(" << token.value << ")" << std::endl;
+            std::cout << "  type : " << token.line << std::endl;
             std::cout << "}" << std::endl;
         }
     } catch (std::exception &e){
