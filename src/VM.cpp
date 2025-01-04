@@ -22,7 +22,13 @@ VM & VM::operator = (const VM &a){
 }
 
 /*----------------------------------------------------------------------------*/
-VM::~VM () {}
+VM::~VM () {
+    while (!this->_stack.empty()) {
+        const IOperand *operand = this->_stack.top();
+        delete operand;
+        this->_stack.pop();
+    }
+}
 
 
 /*----------------------------------------------------------------------------*/
@@ -67,13 +73,15 @@ void    VM::Assert(Token &token){
         if (!this->_stack.size() 
             || (this->_stack.top()->getPrecision() != newOperand->getPrecision() 
                 || this->_stack.top()->toString() != newOperand->toString())){
+            delete newOperand;
             throw   AssertException("");
         }
+        delete newOperand;
     } catch (const OverfflowException&){
-        std::string error = "Out of range on line: " + std::to_string(token.line);
+        std::string error = "Error: Out of range on line: " + std::to_string(token.line);
         throw OverfflowException(error.c_str());
     }catch (const AssertException&){
-        std::string error = "ASSERT instruction not true";
+        std::string error = "Error: ASSERT instruction not true on line: " + std::to_string(token.line);
         throw AssertException(error.c_str());
     }
 }
@@ -88,23 +96,199 @@ void    VM::Dump() const {
     }
 }
 
+
+/*----------------------------------------------------------------------------*/
+void    VM::Pop(Token &token){
+    if(this->_stack.size()){
+        const IOperand *to_del = this->_stack.top();
+        this->_stack.pop();
+        delete to_del;
+    }else{
+        std::string error = "Error: POP instruction on an empty stack on line: " + std::to_string(token.line);
+        throw   PopOnEmptyException(error.c_str());
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void    VM::Print(Token &token) const {
+    if (!this->_stack.size() || this->_stack.top()->getPrecision() != Int8){
+        std::string error = "Error: ASSERT instruction not true on line: " + std::to_string(token.line);
+        throw   AssertException(error.c_str());
+    }else{
+        int value = std::stoi(this->_stack.top()->toString());
+        std::cout << static_cast<char>(value) << std::endl;
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void    VM::Add(Token &token){
+    try{
+        if (this->_stack.size() < 2){
+            throw   AssertException("");
+        }else{
+            const IOperand *v1 = this->_stack.top();
+            this->_stack.pop();
+            const IOperand *v2 = this->_stack.top();
+            this->_stack.pop();
+            try{
+                const IOperand *resultOp = *v2 + *v1;
+                this->_stack.push(resultOp);
+                delete v1;
+                delete v2;
+            }catch(OverfflowException&){
+                delete v1;
+                delete v2;
+                std::string error = "Error: Out of range on line: " + std::to_string(token.line);
+                throw OverfflowException(error.c_str());
+            }
+        }
+    }catch (const AssertException&){
+        std::string error \
+        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        + std::to_string(token.line);
+        throw AssertException(error.c_str());
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void    VM::Sub(Token &token){
+    try{
+        if (this->_stack.size() < 2){
+            throw   AssertException("");
+        }else{
+            const IOperand *v1 = this->_stack.top();
+            this->_stack.pop();
+            const IOperand *v2 = this->_stack.top();
+            this->_stack.pop();
+            try{
+                const IOperand *resultOp = *v2 - *v1;
+                this->_stack.push(resultOp);
+                delete v1;
+                delete v2;
+            }catch(OverfflowException&){
+                delete v1;
+                delete v2;
+                std::string error = "Error: Out of range on line: " + std::to_string(token.line);
+                throw OverfflowException(error.c_str());
+            }
+        }
+    }catch (const AssertException&){
+        std::string error \
+        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        + std::to_string(token.line);
+        throw AssertException(error.c_str());
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void    VM::Mul(Token &token){
+    try{
+        if (this->_stack.size() < 2){
+            throw   AssertException("");
+        }else{
+            const IOperand *v1 = this->_stack.top();
+            this->_stack.pop();
+            const IOperand *v2 = this->_stack.top();
+            this->_stack.pop();
+            try{
+                const IOperand *resultOp = *v2 * *v1;
+                this->_stack.push(resultOp);
+                delete v1;
+                delete v2;
+            }catch(OverfflowException&){
+                delete v1;
+                delete v2;
+                std::string error = "Error: Out of range on line: " + std::to_string(token.line);
+                throw OverfflowException(error.c_str());
+            }
+        }
+    }catch (const AssertException&){
+        std::string error \
+        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        + std::to_string(token.line);
+        throw AssertException(error.c_str());
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void    VM::Div(Token &token){
+    try{
+        if (this->_stack.size() < 2){
+            throw   AssertException("");
+        }else{
+            const IOperand *v1 = this->_stack.top();
+            this->_stack.pop();
+            const IOperand *v2 = this->_stack.top();
+            this->_stack.pop();
+            try{
+                const IOperand *resultOp = *v2 / *v1;
+                this->_stack.push(resultOp);
+                delete v1;
+                delete v2;
+            }catch(DiviModuByZeroException&){
+                delete v1;
+                delete v2;
+                std::string error = "Error: Divission by Zero on line before: " + std::to_string(token.line);
+                throw DiviModuByZeroException(error.c_str());
+            }
+        }
+    }catch (const AssertException&){
+        std::string error \
+        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        + std::to_string(token.line);
+        throw AssertException(error.c_str());
+    }
+}
+
+/*----------------------------------------------------------------------------*/
+void    VM::Mod(Token &token){
+    try{
+        if (this->_stack.size() < 2){
+            throw   AssertException("");
+        }else{
+            const IOperand *v1 = this->_stack.top();
+            this->_stack.pop();
+            const IOperand *v2 = this->_stack.top();
+            this->_stack.pop();
+            try{
+                const IOperand *resultOp = *v2 % *v1;
+                this->_stack.push(resultOp);
+                delete v1;
+                delete v2;
+            }catch(OverfflowException&){
+                delete v1;
+                delete v2;
+                std::string error = "Error: Out of range on line: " + std::to_string(token.line);
+                throw OverfflowException(error.c_str());
+            }
+        }
+    }catch (const AssertException&){
+        std::string error \
+        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        + std::to_string(token.line);
+        throw AssertException(error.c_str());
+    }
+}
+
 /*----------------------------------------------------------------------------*/
 void    VM::execute(){
     for(auto &token: this->_Tokens){
-        if (token.type >= PUSHINT8 && token.type <= PUSHDOUBLE){
-            this->Push(token);
-        }
-        if (token.type >= ASSERTINT8 && token.type <= ASSERTDOUBLE){
-            this->Assert(token);
-        }
-        if(token.type == DUMP){
-            this->Dump();
+        switch(token.type){
+            case PUSHINT8 ... PUSHDOUBLE: this->Push(token); break;
+            case ASSERTINT8 ... ASSERTDOUBLE: this->Assert(token); break;
+            case POP: this->Pop(token); break;
+            case DUMP: this->Dump(); break;
+            case ADD: this->Add(token); break;
+            case SUB: this->Sub(token); break;
+            case MUL: this->Mul(token); break;
+            case DIV: this->Div(token); break;
+            case MOD: this->Mod(token); break;
+            case PRINT: this->Print(token); break;
+            case EXIT:
+                std::cout << "EXIT" << std::endl;
+                break;
+            default:
+                break;
         }
     }
-
-    // while(!this->_stack.empty()){
-    //     std::cout << "stack item: " << this->_stack.top()->toString() << std::endl;
-    //     std::cout << "stack item: " << this->_stack.top()->getType() << std::endl;
-    //     this->_stack.pop();
-    // }
 }

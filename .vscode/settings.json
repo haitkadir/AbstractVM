@@ -70,5 +70,6 @@
         "iomanip": "cpp",
         "stack": "cpp",
         "filesystem": "cpp"
-    }
+    },
+    "editor.fontFamily": "'Fira Code', 'Courier New', monospace"
 }

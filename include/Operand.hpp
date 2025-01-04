@@ -63,9 +63,8 @@ public:
         double v2 = (std::stod(rhs.toString()));
         // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
-		OperandFactory *factory = new OperandFactory();
-		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(v1 + v2));
-		delete factory;
+		OperandFactory factory;
+		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 + v2));
 		return newOperand;
 
     }
@@ -75,9 +74,8 @@ public:
         double v2 = (std::stod(rhs.toString()));
         // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
-		OperandFactory *factory = new OperandFactory();
-		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(v1 - v2));
-		delete factory;
+		OperandFactory factory;
+		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 - v2));
 		return newOperand;
     }
 
@@ -86,9 +84,8 @@ public:
         double v2 = (std::stod(rhs.toString()));
         // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
-		OperandFactory *factory = new OperandFactory();
-		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(v1 * v2));
-		delete factory;
+		OperandFactory factory;
+		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 * v2));
 		return newOperand;
     }
 
@@ -101,9 +98,8 @@ public:
         double v2 = (std::stod(rhs.toString()));
         // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
-		OperandFactory *factory = new OperandFactory();
-		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(v1 / v2));
-		delete factory;
+		OperandFactory factory;
+		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 / v2));
 		return newOperand;
 
     }
@@ -116,9 +112,8 @@ public:
         double v2 = (std::stod(rhs.toString()));
         // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
-		OperandFactory *factory = new OperandFactory();
-		IOperand const *newOperand = factory->createOperand(resultType, std::to_string(std::fmod(v1 , v2)));
-		delete factory;
+		OperandFactory factory;
+		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(std::fmod(v1 , v2)));
 		return newOperand;
     }
 

@@ -17,8 +17,14 @@ private:
     /*----------------------------------------------------------------------------*/
     void    Push(Token &token);
     void    Assert(Token &token);
+    void    Pop(Token &token);
     void    Dump() const;
-    // void    pop();
+    void    Print(Token &token) const;
+    void    Add(Token &token);
+    void    Sub(Token &token);
+    void    Mul(Token &token);
+    void    Div(Token &token);
+    void    Mod(Token &token);
 
 
 public:

@@ -30,7 +30,7 @@ const char* LexecalException::what() const noexcept
     return message.c_str();
 }
 
-/*------------------------------ VM errors ---------------------------------*/
+/*------------------------------ Execution errors ---------------------------------*/
 VMException::VMException(const char* msg) : message(msg)
 {
 }
@@ -40,12 +40,22 @@ const char* VMException::what() const noexcept
     return message.c_str();
 }
 
-/*------------------------------ VM errors ---------------------------------*/
+/*------------------------------ Execution errors ---------------------------------*/
 AssertException::AssertException(const char* msg) : message(msg)
 {
 }
 
 const char* AssertException::what() const noexcept
+{
+    return message.c_str();
+}
+
+/*------------------------------ Execution errors ---------------------------------*/
+PopOnEmptyException::PopOnEmptyException(const char* msg) : message(msg)
+{
+}
+
+const char* PopOnEmptyException::what() const noexcept
 {
     return message.c_str();
 }

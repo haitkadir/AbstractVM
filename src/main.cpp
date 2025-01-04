@@ -1,8 +1,12 @@
 #include <iostream>
 #include "../include/VM.hpp"
 
+void memcheck(){
+    system("leaks AbstractVM");
+}
 int main(int ac, char **av) {
 
+    atexit(memcheck);
     try{
         VM  avm;
         if (ac < 2){

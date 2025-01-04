@@ -44,13 +44,22 @@ public:
     const char* what() const noexcept override;
 };
 
-/*---------------------------- Lexecal errors -----------------------------*/
+/*---------------------------- Execution errors -----------------------------*/
 class   AssertException : public std::exception {
 private:
     std::string message;
 
 public:
     AssertException(const char* msg);
+    const char* what() const noexcept override;
+};
+
+class   PopOnEmptyException : public std::exception {
+private:
+    std::string message;
+
+public:
+    PopOnEmptyException(const char* msg);
     const char* what() const noexcept override;
 };
 
