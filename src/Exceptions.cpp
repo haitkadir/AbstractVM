@@ -39,3 +39,13 @@ const char* VMException::what() const noexcept
 {
     return message.c_str();
 }
+
+/*------------------------------ VM errors ---------------------------------*/
+AssertException::AssertException(const char* msg) : message(msg)
+{
+}
+
+const char* AssertException::what() const noexcept
+{
+    return message.c_str();
+}

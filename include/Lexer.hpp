@@ -6,38 +6,8 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include "Global.hpp"
 
-
-enum TokenType { 
-    PUSHINT8,
-    PUSHINT16,
-    PUSHINT32,
-    PUSHINT,
-    PUSHFLOAT,
-    PUSHDOUBLE,
-    ASSERTINT8,
-    ASSERTINT16,
-    ASSERTINT32,
-    ASSERTINT,
-    ASSERTFLOAT,
-    ASSERTDOUBLE,
-    POP,
-    DUMP,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    MOD,
-    PRINT,
-    EXIT,
-    INVALID
-};
-
-struct Token {
-    TokenType type;
-    std::string value;
-    size_t line;
-};
 class Lexer {
 public:
     Lexer();

@@ -1,9 +1,25 @@
 #ifndef __VM_H__
 #define __VM_H__
+#include <vector>
+#include <stack>
+#include "Lexer.hpp"
+#include "Global.hpp"
+#include "IOperand.interface.hpp"
+#include "Factory.class.hpp"
 
 class VM{
 private:
-    // your Privite members here
+    std::string                     _buffer;
+    Lexer                           _lexecal;
+    std::vector<Token>              _Tokens;
+    std::stack<const IOperand *>    _stack;
+    OperandFactory                  _Factory;
+    /*----------------------------------------------------------------------------*/
+    void    Push(Token &token);
+    void    Assert(Token &token);
+    void    Dump() const;
+    // void    pop();
+
 
 public:
     VM ();
@@ -12,9 +28,10 @@ public:
     ~VM ();
 
     /*----------------------------------------------------------------------------*/
-    std::string readFileToString(const std::string& filePath);
+    void    readFile(const std::string& filePath);
+    void    runLexecal();
+    void    execute();
     
 };
 
 #endif
-

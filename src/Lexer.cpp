@@ -31,13 +31,11 @@ Token Lexer::identifyToken(const std::string& value) {
         {std::regex(R"(^push\s+int8\((\d+)\)\s*$)"), PUSHINT8},
         {std::regex(R"(^push\s+int16\((\d+)\)\s*$)"), PUSHINT16},
         {std::regex(R"(^push\s+int32\((\d+)\)\s*$)"), PUSHINT32},
-        {std::regex(R"(^push\s+int\((\d+)\)\s*$)"), PUSHINT},
         {std::regex(R"(^push\s+float\((\d+\.\d+)\)\s*$)"), PUSHFLOAT},
         {std::regex(R"(^push\s+double\((\d+\.\d+)\)\s*$)"), PUSHDOUBLE},
         {std::regex(R"(^assert\s+int8\((\d+)\)\s*$)"), ASSERTINT8},
         {std::regex(R"(^assert\s+int16\((\d+)\)\s*$)"), ASSERTINT16},
         {std::regex(R"(^assert\s+int32\((\d+)\)\s*$)"), ASSERTINT32},
-        {std::regex(R"(^assert\s+int\((\d+)\)\s*$)"), ASSERTINT},
         {std::regex(R"(^assert\s+float\((\d+\.\d+)\)\s*$)"), ASSERTFLOAT},
         {std::regex(R"(^assert\s+double\((\d+\.\d+)\)\s*$)"), ASSERTDOUBLE},
         {std::regex(R"(^pop\s*$)"), POP},
@@ -54,7 +52,7 @@ Token Lexer::identifyToken(const std::string& value) {
     for (const auto& [pattern, type] : patterns) {
         if (std::regex_match(value, match, pattern)) {
             token.type = type;
-            if (token.type > 11)
+            if (token.type > ASSERTDOUBLE)
                 token.value = match[0];
             else
                 token.value = match[1];
@@ -74,7 +72,10 @@ void Lexer::trim(std::string &str, const char *to_trim){
 }
 
 
-/*----------------------------------------------------------------------------*/
+/*
+        This function toknizes the input in type, value and line
+--------------------------------------------------------------------------------
+*/
 std::vector<Token> Lexer::tokenize(const std::string& input) {
     this->_input = input;
     std::istringstream streamfile(input);
@@ -103,6 +104,8 @@ std::vector<Token> Lexer::tokenize(const std::string& input) {
         tokens.push_back(token);
         ++_line;
     }
+    if(tokens.rbegin()->type != EXIT)
+        throw LexecalException("Lexecal error: Program must end with 'exit' instruction");
     return tokens;
 }
 
