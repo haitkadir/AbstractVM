@@ -44,15 +44,21 @@ void VM::readFile(const std::string& filePath) {
     }
     std::stringstream buffer;
     buffer << file.rdbuf();
+    file.close();
     this->_buffer =  buffer.str();
 }
 
 
 /*----------------------------------------------------------------------------*/
 void    VM::runLexecal(){
-    this->_Tokens = this->_lexecal.tokenize(this->_buffer);
+    this->_lexer.tokenize(this->_buffer);
 }
 
+
+/*----------------------------------------------------------------------------*/
+void    VM::printTokens() const{
+    this->_lexer.printTokens();
+}
 
 /*----------------------------------------------------------------------------*/
 void    VM::Push(Token &token){
@@ -228,13 +234,13 @@ void    VM::Div(Token &token){
             }catch(DiviModuByZeroException&){
                 delete v1;
                 delete v2;
-                std::string error = "Error: Divission by Zero on line before: " + std::to_string(token.line);
+                std::string error = "Error: Divission by Zero on line: " + std::to_string(token.line);
                 throw DiviModuByZeroException(error.c_str());
             }
         }
     }catch (const AssertException&){
         std::string error \
-        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        = "Error: stack is less than two values when an arithmetic instruction executed on line: " \
         + std::to_string(token.line);
         throw AssertException(error.c_str());
     }
@@ -255,24 +261,33 @@ void    VM::Mod(Token &token){
                 this->_stack.push(resultOp);
                 delete v1;
                 delete v2;
-            }catch(OverfflowException&){
+            }catch(DiviModuByZeroException&){
                 delete v1;
                 delete v2;
-                std::string error = "Error: Out of range on line: " + std::to_string(token.line);
-                throw OverfflowException(error.c_str());
+                std::string error = "Error: Modulo by Zero on line: " + std::to_string(token.line);
+                throw DiviModuByZeroException(error.c_str());
             }
         }
     }catch (const AssertException&){
         std::string error \
-        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        = "Error: stack is less than two values when an arithmetic instruction executed on line: " \
         + std::to_string(token.line);
         throw AssertException(error.c_str());
     }
 }
 
 /*----------------------------------------------------------------------------*/
+void    VM::Exit(){
+    throw   ExitException("Exited");
+}
+
+/*----------------------------------------------------------------------------*/
 void    VM::execute(){
-    for(auto &token: this->_Tokens){
+    for(auto &token: this->_lexer.getTokens()){
+        if ((&token == &this->_lexer.getTokens().back()) && token.type != EXIT) {
+            throw VMException("Error: expected Exit instruction got nothing");
+        }
+
         switch(token.type){
             case PUSHINT8 ... PUSHDOUBLE: this->Push(token); break;
             case ASSERTINT8 ... ASSERTDOUBLE: this->Assert(token); break;
@@ -284,9 +299,7 @@ void    VM::execute(){
             case DIV: this->Div(token); break;
             case MOD: this->Mod(token); break;
             case PRINT: this->Print(token); break;
-            case EXIT:
-                std::cout << "EXIT" << std::endl;
-                break;
+            case EXIT: this->Exit(); break;
             default:
                 break;
         }

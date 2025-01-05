@@ -1,18 +1,17 @@
 #include <iostream> 
 #include <stack> 
+#include <string>
 using namespace std; 
   
 int main() 
 { 
-    // Empty stack 
-    stack<int> mystack; 
-    mystack.push(0); 
-    mystack.push(1); 
-    mystack.push(2); 
-  
-    // Printing content of stack 
-    while (!mystack.empty()) { 
-        cout << ' ' << mystack.top(); 
-        mystack.pop(); 
-    } 
+    std::string str = "0.0000000001";
+    if (static_cast<float>(std::stod(str)) == 0){
+        std::cout << "zero" << std::endl;
+    }else{
+        std::cout << "not zero" << std::endl;
+
+    }
+
+
 } 

@@ -10,8 +10,7 @@
 class VM{
 private:
     std::string                     _buffer;
-    Lexer                           _lexecal;
-    std::vector<Token>              _Tokens;
+    Lexer                           _lexer;
     std::stack<const IOperand *>    _stack;
     OperandFactory                  _Factory;
     /*----------------------------------------------------------------------------*/
@@ -25,6 +24,7 @@ private:
     void    Mul(Token &token);
     void    Div(Token &token);
     void    Mod(Token &token);
+    void    Exit();
 
 
 public:
@@ -36,6 +36,7 @@ public:
     /*----------------------------------------------------------------------------*/
     void    readFile(const std::string& filePath);
     void    runLexecal();
+    void    printTokens() const;
     void    execute();
     
 };

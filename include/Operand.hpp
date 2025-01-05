@@ -44,7 +44,7 @@ public:
         if(!isoverfflow(type, value)){
             _value = static_cast<T>(std::stod(value));
             _type = type;
-            _strValue = std::to_string(static_cast<T>(std::stod(value)));
+            _strValue = value;
         }else {
             throw OverfflowException("Error: Out Of Range");
         }
@@ -61,10 +61,10 @@ public:
     IOperand const* operator+(IOperand const& rhs) const override {
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
-        // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
+        std::cout << "resultType:" << resultType << std::endl;
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 + v2));
+		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 + v2, resultType));
 		return newOperand;
 
     }
@@ -72,48 +72,44 @@ public:
     IOperand const* operator-(IOperand const& rhs) const override {
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
-        // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 - v2));
+		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 - v2, resultType));
 		return newOperand;
     }
 
     IOperand const* operator*(IOperand const& rhs) const override {
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
-        // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 * v2));
+		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 * v2, resultType));
 		return newOperand;
     }
 
     IOperand const* operator/(IOperand const& rhs) const override {
-        if (std::stod(rhs.toString()) == 0) { // re implement the check Division by zero logic
+        if (std::stod(rhs.toString()) == 0) {
             throw DiviModuByZeroException("Division by zero");
         }
 
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
-        // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(v1 / v2));
+		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 / v2, resultType));
 		return newOperand;
 
     }
 
     IOperand const* operator%(IOperand const& rhs) const override {
-        if (std::stod(rhs.toString()) == 0) { // re implement this check Modulo by zero logic
+        if (std::stod(rhs.toString()) == 0) {
             throw DiviModuByZeroException("Modulo by zero");
         }
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
-        // I should check overflow here.
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, std::to_string(std::fmod(v1 , v2)));
+		IOperand const *newOperand = factory.createOperand(resultType, castToType(std::fmod(v1 , v2), resultType));
 		return newOperand;
     }
 
@@ -121,6 +117,17 @@ public:
         return _strValue;
     }
 private:
+    std::string castToType(double num, eOperandType type) const{
+        switch(type){
+            case Int8: return std::to_string(static_cast<int8_t>(num));
+            case Int16: return std::to_string(static_cast<int16_t>(num));
+            case Int32: return std::to_string(static_cast<int32_t>(num));
+            case Float: return std::to_string(static_cast<float>(num));
+            case Double: return std::to_string(static_cast<double>(num));
+            default:
+                return std::to_string(num);
+        }
+    }
     bool    isoverfflow(eOperandType type, std::string const &input){
         double  value;
         try{

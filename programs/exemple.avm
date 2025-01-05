@@ -1,35 +1,11 @@
 ;               
 ; exemple.avm -
 ; ------------
-
-push int8(33)
-push float(0.00001)
+push                float(1.0); this is an int 8 bits
+push                float(0.00000000000000000000000000); this is an int 8 bits
+mod
 dump
-
-div
-dump
-;sub
-; v2 = 10 - v1 = 5
-;
-;
-;push int8(99) 
-;print
-;
-;push int32(42)
-;assert int32(42)
-;pop                
-;push int32(33)
-;;push float(44.55)               
-;;dump
-;
-
-
-;push int32(42)
-
-
-
-;push float(42.42)      
-;assert float(42.42)
 exit
+
 
 

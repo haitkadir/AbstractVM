@@ -1,11 +1,11 @@
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++17# -g -fsanitize=address -static-libsan
+CFLAGS = -Wall -Wextra -Werror -std=c++17 -g -fsanitize=address -static-libsan
 SRCDIR = src
 INCDIR = include
 OBJDIR = bin
 SOURCES = $(wildcard $(SRCDIR)/*.cpp)
 OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-TARGET = AbstractVM
+TARGET = avm
 
 all: $(TARGET)
 

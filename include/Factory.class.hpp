@@ -2,7 +2,6 @@
 #define __FACTORY_H__
 
 #include <vector>
-// #include <string>
 
 #include "IOperand.interface.hpp"
 
@@ -12,12 +11,10 @@ private:
     std::vector<CreateFunction> _createFunctions;
 
 public:
-    // Default constructor
     OperandFactory();
-
-    OperandFactory(const OperandFactory& other) = default;
-    OperandFactory& operator=(const OperandFactory& other) = default;
-    ~OperandFactory() = default;
+    OperandFactory(const OperandFactory& other);
+    OperandFactory& operator=(const OperandFactory& other);
+    ~OperandFactory();
 
 
     IOperand const* createOperand(eOperandType type, std::string const& value) const;
