@@ -35,6 +35,7 @@ public:
 
     /*----------------------------------------------------------------------------*/
     void    readFile(const std::string& filePath);
+    void    readStdin();
     void    runLexecal();
     void    printTokens() const;
     void    execute();

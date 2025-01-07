@@ -2,26 +2,23 @@
 #include "../include/VM.hpp"
 #include "../include/Exceptions.hpp"
 
-void memcheck(){
-    system("leaks avm");
-}
-int main(int ac, char **av) {
 
-    // atexit(memcheck);
+int main(int ac, char **av) {
     try{
         VM  avm;
         if (ac < 2){
-            std::cout << "Reading from stdin not handled yet" << std::endl;
-            // avm.readStdin();
-            // avm.runLexecal();
-            // avm.execute();
+            avm.readStdin();
+            avm.runLexecal();
+            // avm.printTokens();
+            avm.execute();
         }else if (ac == 2){
             avm.readFile(av[1]);
             avm.runLexecal();
-            avm.printTokens();
+            // avm.printTokens();
             avm.execute();
         } else{
             std::cout << "Bad arguments:\n./avm path/to/example.avm" << std::endl;
+            std::cout << "Or:\n./avm\nTo read from stdin" << std::endl;
         }
     } catch (ExitException &e){
         exit(0);

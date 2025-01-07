@@ -48,6 +48,23 @@ void VM::readFile(const std::string& filePath) {
     this->_buffer =  buffer.str();
 }
 
+/*----------------------------------------------------------------------------*/
+void VM::readStdin() {
+    std::string line;
+    std::string result;
+
+    std::regex endOfProgram(R"(^;;$)");
+    while(std::getline(std::cin, line)){
+        if (std::regex_match(line, endOfProgram)){
+            break;
+        }else{
+            result += (line + "\n");
+        }
+    }
+
+    this->_buffer =  result;
+}
+
 
 /*----------------------------------------------------------------------------*/
 void    VM::runLexecal(){
@@ -97,7 +114,7 @@ void    VM::Assert(Token &token){
 void    VM::Dump() const {
     std::stack<const IOperand *>    temp = this->_stack;
     while(!temp.empty()){
-        std::cout << temp.top()->toString() << std::endl;
+        std::cout << static_cast<double>(std::stod(temp.top()->toString())) << std::endl;
         temp.pop();
     }
 }
@@ -150,7 +167,7 @@ void    VM::Add(Token &token){
         }
     }catch (const AssertException&){
         std::string error \
-        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        = "Error: stack is less than two values when an arithmetic instruction executed on line: " \
         + std::to_string(token.line);
         throw AssertException(error.c_str());
     }
@@ -180,7 +197,7 @@ void    VM::Sub(Token &token){
         }
     }catch (const AssertException&){
         std::string error \
-        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        = "Error: stack is less than two values when an arithmetic instruction executed on line: " \
         + std::to_string(token.line);
         throw AssertException(error.c_str());
     }
@@ -210,7 +227,7 @@ void    VM::Mul(Token &token){
         }
     }catch (const AssertException&){
         std::string error \
-        = "Error: stack is less than two values when an arithmetic instructionis executed on line: " \
+        = "Error: stack is less than two values when an arithmetic instruction executed on line: " \
         + std::to_string(token.line);
         throw AssertException(error.c_str());
     }
@@ -284,9 +301,6 @@ void    VM::Exit(){
 /*----------------------------------------------------------------------------*/
 void    VM::execute(){
     for(auto &token: this->_lexer.getTokens()){
-        if ((&token == &this->_lexer.getTokens().back()) && token.type != EXIT) {
-            throw VMException("Error: expected Exit instruction got nothing");
-        }
 
         switch(token.type){
             case PUSHINT8 ... PUSHDOUBLE: this->Push(token); break;
@@ -302,6 +316,9 @@ void    VM::execute(){
             case EXIT: this->Exit(); break;
             default:
                 break;
+        }
+        if ((&token == &this->_lexer.getTokens().back()) && token.type != EXIT) {
+            throw VMException("Error: expected Exit instruction got nothing");
         }
     }
 }

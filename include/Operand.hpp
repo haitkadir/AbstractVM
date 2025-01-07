@@ -62,7 +62,6 @@ public:
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
-        std::cout << "resultType:" << resultType << std::endl;
 		OperandFactory factory;
 		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 + v2, resultType));
 		return newOperand;
