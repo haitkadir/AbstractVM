@@ -1,0 +1,7 @@
+push int8(0)
+push int8(-1)
+push int8(1)
+push int8(-128)		; limit min
+push int8(127)		; limit max
+push int8(-129)	; less than limit min
+push int8(128)		; more than limit max

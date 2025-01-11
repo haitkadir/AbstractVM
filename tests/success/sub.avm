@@ -1,0 +1,13 @@
+; test sub
+push int8(0)
+push float(42.4199982)
+dump
+sub
+dump
+assert float(-42.4199982)
+push int8(-1)
+dump
+sub
+assert float(-41.4199982)
+pop
+exit

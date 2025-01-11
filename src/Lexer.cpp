@@ -41,7 +41,7 @@ Token Lexer::identifyToken(const std::string& value) {
         {std::regex(R"(^assert\s+float\((-?\d+\.\d+)\)\s*(?:;.*)?$)"), ASSERTFLOAT},
         {std::regex(R"(^assert\s+double\((-?\d+\.\d+)\)\s*(?:;.*)?$)"), ASSERTDOUBLE},
         {std::regex(R"(^pop\s*(?:;.*)?$)"), POP},
-        {std::regex(R"(^dump\s*?$)"), DUMP},
+        {std::regex(R"(^dump\s*(?:;.*)?$)"), DUMP},
         {std::regex(R"(^add\s*(?:;.*)?$)"), ADD},
         {std::regex(R"(^sub\s*(?:;.*)?$)"), SUB},
         {std::regex(R"(^mul\s*(?:;.*)?$)"), MUL},
@@ -99,14 +99,14 @@ void    Lexer::tokenize(const std::string& input) {
         token.line = _line;
 
         if (token.type == INVALID) {
-            std::string error = "Lexical error on line " + std::to_string(_line);
+            std::string error = "Lexical Error: Invalid INSTRUCTION syntax on line " + std::to_string(_line);
             throw LexecalException(error.c_str());
         }
         this->_Tokens.push_back(token);
         ++_line;
     }
-    // if(this->_Tokens.size() && this->_Tokens.rbegin()->type != EXIT)
-    //     throw LexecalException("Lexecal error: Program must end with 'exit' instruction");
+    if(!this->_Tokens.size())
+        throw LexecalException("Lexecal error: At least one valid INSTRUCTION");
 }
 
 

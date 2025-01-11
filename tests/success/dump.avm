@@ -1,0 +1,9 @@
+; test dump
+dump; stack vide
+push int8(12)
+push int16(123)
+push int32(-123123)
+push float(0.0)
+push double(123456789.123456789)
+dump
+exit

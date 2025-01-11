@@ -1,0 +1,159 @@
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+
+;rep 100
+dump
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+mul
+;rep 50
+dump
+exit
+;;

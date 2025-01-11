@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        ".env*": "dotenv",
         "__bit_reference": "cpp",
         "__config": "cpp",
         "__debug": "cpp",
@@ -35,8 +34,10 @@
         "cwctype": "cpp",
         "deque": "cpp",
         "exception": "cpp",
+        "fstream": "cpp",
         "functional": "cpp",
         "initializer_list": "cpp",
+        "iomanip": "cpp",
         "ios": "cpp",
         "iosfwd": "cpp",
         "iostream": "cpp",
@@ -52,6 +53,7 @@
         "ratio": "cpp",
         "regex": "cpp",
         "sstream": "cpp",
+        "stack": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "string": "cpp",
@@ -63,13 +65,7 @@
         "unordered_map": "cpp",
         "utility": "cpp",
         "vector": "cpp",
-        "*.tpp": "cpp",
         "__memory": "cpp",
-        "cfenv": "cpp",
-        "fstream": "cpp",
-        "iomanip": "cpp",
-        "stack": "cpp",
         "filesystem": "cpp"
-    },
-    "editor.fontFamily": "'Fira Code', 'Courier New', monospace"
+    }
 }

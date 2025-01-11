@@ -1,0 +1,6 @@
+; test pop
+push int8(0)
+pop
+push int16(1)
+pop
+exit

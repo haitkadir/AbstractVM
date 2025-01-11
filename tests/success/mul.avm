@@ -1,0 +1,14 @@
+; test mul
+push int8(0)
+push float(42.42)
+mul
+assert float(0.0)
+push int8(-1)
+mul
+assert float(0.0)
+pop
+push int16(2)
+push int32(64)
+mul
+assert int32(128)
+exit

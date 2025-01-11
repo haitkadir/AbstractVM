@@ -1,0 +1,4 @@
+push int8(125)
+push int32(0)
+mod
+exit

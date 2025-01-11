@@ -9,7 +9,10 @@
 #include "Exceptions.hpp"
 
 #include <iostream>
-
+#include <sstream>
+#include <type_traits>
+#include <limits>
+#include <iomanip>
 
 template <typename T>
 class Operand : public IOperand {
@@ -19,30 +22,38 @@ private:
     std::string     _strValue;
 
 public:
+
+    /*----------------------------------------------------------------------------*/
     Operand(): _value(), _type(Int8), _strValue("0")
     {
     }
+
+    /*----------------------------------------------------------------------------*/
     Operand(const Operand& other) {
-        this->_value = static_cast<T>(std::stod(other.toString()));
+        this->_value = std::stod(other.toString());
         this->_type = other.getType();
         this->_strValue = other.toString();
     }
+
+    /*----------------------------------------------------------------------------*/
     Operand& operator=(const Operand& other){
         if (this != &other){
-            this->_value = static_cast<T>(std::stod(other.toString()));
+            this->_value = std::stod(other.toString());
             this->_type = other.getType();
             this->_strValue = other.toString();
         }
         return *this;
     }
+
+    /*----------------------------------------------------------------------------*/
     ~Operand()
     {
     }
 
-
+    /*----------------------------------------------------------------------------*/
     Operand(std::string const &value, eOperandType type){
-        if(!isoverfflow(type, value)){
-            _value = static_cast<T>(std::stod(value));
+        if(!isoverflow(type, value)){
+            _value = std::stod(value);
             _type = type;
             _strValue = value;
         }else {
@@ -50,42 +61,48 @@ public:
         }
     }
 
+    /*----------------------------------------------------------------------------*/
     int getPrecision() const override {
         return static_cast<int>(_type);
     }
 
+    /*----------------------------------------------------------------------------*/
     eOperandType getType() const override {
         return _type;
     }
 
+    /*----------------------------------------------------------------------------*/
     IOperand const* operator+(IOperand const& rhs) const override {
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 + v2, resultType));
+		IOperand const *newOperand = factory.createOperand(resultType, typeNormaliser(v1 + v2, resultType));
 		return newOperand;
 
     }
 
+    /*----------------------------------------------------------------------------*/
     IOperand const* operator-(IOperand const& rhs) const override {
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 - v2, resultType));
+		IOperand const *newOperand = factory.createOperand(resultType, typeNormaliser(v1 - v2, resultType));
 		return newOperand;
     }
 
+    /*----------------------------------------------------------------------------*/
     IOperand const* operator*(IOperand const& rhs) const override {
         double v1 = (static_cast<double>(_value));
         double v2 = (std::stod(rhs.toString()));
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 * v2, resultType));
+		IOperand const *newOperand = factory.createOperand(resultType, typeNormaliser(v1 * v2, resultType));
 		return newOperand;
     }
 
+    /*----------------------------------------------------------------------------*/
     IOperand const* operator/(IOperand const& rhs) const override {
         if (std::stod(rhs.toString()) == 0) {
             throw DiviModuByZeroException("Division by zero");
@@ -95,11 +112,12 @@ public:
         double v2 = (std::stod(rhs.toString()));
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, castToType(v1 / v2, resultType));
+		IOperand const *newOperand = factory.createOperand(resultType, typeNormaliser(v1 / v2, resultType));
 		return newOperand;
 
     }
 
+    /*----------------------------------------------------------------------------*/
     IOperand const* operator%(IOperand const& rhs) const override {
         if (std::stod(rhs.toString()) == 0) {
             throw DiviModuByZeroException("Modulo by zero");
@@ -108,48 +126,95 @@ public:
         double v2 = (std::stod(rhs.toString()));
         eOperandType resultType = static_cast<eOperandType>(std::max(getPrecision(), rhs.getPrecision()));
 		OperandFactory factory;
-		IOperand const *newOperand = factory.createOperand(resultType, castToType(std::fmod(v1 , v2), resultType));
+		IOperand const *newOperand = factory.createOperand(resultType, typeNormaliser(std::fmod(v1 , v2), resultType));
 		return newOperand;
     }
 
+    /*----------------------------------------------------------------------------*/
     std::string const& toString() const override {
         return _strValue;
     }
 private:
-    std::string castToType(double num, eOperandType type) const{
-        switch(type){
-            case Int8: return std::to_string(static_cast<int8_t>(num));
-            case Int16: return std::to_string(static_cast<int16_t>(num));
-            case Int32: return std::to_string(static_cast<int32_t>(num));
-            case Float: return std::to_string(static_cast<float>(num));
-            case Double: return std::to_string(static_cast<double>(num));
-            default:
-                return std::to_string(num);
+
+    /*----------------------------------------------------------------------------*/
+    std::string typeNormaliser(double value, eOperandType type) const {
+        std::ostringstream oss;
+
+        if (!isoverflow(type, std::to_string(value))){
+
+            switch (type) {
+                case Int8 ... Int32: {
+                    int intValue = static_cast<int>(std::round(value));
+                    return std::to_string(intValue);
+                }
+                case Float: {
+                    float floatValue = static_cast<float>(value);
+                    oss << std::fixed << std::setprecision(7) << floatValue; 
+                    return oss.str();
+                }
+                case Double: {
+                    oss << std::fixed << std::setprecision(15) << value;
+                    return oss.str();
+                }
+                default:
+                    return std::to_string(value);
+            }
+        }else {
+            throw OverfflowException("Error: Out Of Range");
         }
     }
-    bool    isoverfflow(eOperandType type, std::string const &input){
-        double  value;
-        try{
-            if (type == Float)
-                value = std::stof(input);
-            else
-                value = std::stod(input);
-        }  catch (const std::out_of_range&) {
-            return true;
-        } catch (const std::invalid_argument&) {
+
+    /*----------------------------------------------------------------------------*/
+
+    bool isoverflow(eOperandType type, const std::string& input) const {
+        try {
+            switch (type) {
+                case Int8: {
+                    int int8value = std::stoi(input);
+                    if (int8value < std::numeric_limits<int8_t>::min() || int8value > std::numeric_limits<int8_t>::max()) {
+                        return true;
+                    }
+                    break;
+                }
+                case Int16: {
+                    int int16value = std::stoi(input);
+                    if (int16value < std::numeric_limits<int16_t>::min() || int16value > std::numeric_limits<int16_t>::max()) {
+                        return true;
+                    }
+                    break;
+                }
+                case Int32: {
+                    int intvalue = std::stoi(input);
+                    if (intvalue < std::numeric_limits<int32_t>::min() || intvalue > std::numeric_limits<int32_t>::max()) {
+                        return true;
+                    }
+                    break;
+                }
+                case Float: {
+                    float floatValue = std::stof(input);
+                    if (std::isinf(floatValue)) {
+                        return true;
+                    }
+                    break;
+                }
+                case Double: {
+                    double doubleValue = std::stod(input);
+                    if (std::isinf(doubleValue)) {
+                        return true;
+                    }
+                    break;
+                }
+                default:
+                    return false;
+            }
+
+        } catch (const std::out_of_range&) {
             return true;
         }
-        switch (type)
-        {
-            case Int8: return (value < std::numeric_limits<int8_t>::min() || value > std::numeric_limits<int8_t>::max()) ? true: false;
-            case Int16: return (value < std::numeric_limits<int16_t>::min() || value > std::numeric_limits<int16_t>::max()) ? true: false;
-            case Int32: return (value < std::numeric_limits<int32_t>::min() || value > std::numeric_limits<int32_t>::max()) ? true: false;
-            case Float: return std::isinf(value) ? true: false;
-            case Double: return std::isinf(value) ? true: false;
-            default:
-                return false;
-        }
+        return false;
     }
+
+    /*----------------------------------------------------------------------------*/
 
 };
 

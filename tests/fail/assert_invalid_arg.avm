@@ -1,0 +1,6 @@
+; assert with invalid arguments
+assert hello
+assert int
+assert double(double)
+assert int16(
+assert float(42) ; invalid because float and double require [\d+.\d+]

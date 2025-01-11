@@ -1,0 +1,2 @@
+; assert on an empty stack
+assert int8(0)

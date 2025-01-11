@@ -1,0 +1,4 @@
+; assert with no arguments
+assert
+assert;int8(16)
+assert ;int8(16)

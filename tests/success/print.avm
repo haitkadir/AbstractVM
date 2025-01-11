@@ -1,0 +1,10 @@
+; test add
+push int8(42)
+print
+assert int8(42)
+push int8(-1)
+print
+assert int8(-1)
+pop
+pop
+exit

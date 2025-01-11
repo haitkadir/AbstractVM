@@ -1,0 +1,11 @@
+; test div
+push int8(25)
+push float(5.0)
+dump
+div
+assert float(5.0)
+push int8(2)
+div
+assert float(2.5)
+pop
+exit

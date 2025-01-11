@@ -1,0 +1,2 @@
+push int8(0)
+assert int16(0)

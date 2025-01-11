@@ -1,0 +1,22 @@
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+push float(0.1)
+add
+add
+add
+add
+add
+add
+add
+add
+add
+dump
+assert float(1.0)
+exit

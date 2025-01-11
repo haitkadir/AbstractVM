@@ -1,0 +1,23 @@
+; test assert
+push int8(42)
+assert int8(42)
+
+push int16(-42)
+assert int16(-42)
+
+push int32(424242)
+assert int32(424242)
+
+push float(42.42)
+assert float(42.42)
+
+push double(0.24)
+assert double(0.24)
+
+pop
+pop
+pop
+pop
+pop
+
+exit

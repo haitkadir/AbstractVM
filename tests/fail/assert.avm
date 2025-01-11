@@ -1,0 +1,14 @@
+; assert with invalid arguments
+assert hello
+assert int
+assert double(double)
+assert int16(
+assert float(42) ; invalid because float and double require [\d+.\d+]
+; assert with no arguments
+assert
+assert;int8(16)
+assert ;int8(16)
+; assert with too many arguments
+assert double(0.24) int32(0)
+assert double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)
+assert double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)

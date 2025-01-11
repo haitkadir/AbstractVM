@@ -1,0 +1,4 @@
+; assert with too many arguments
+assert double(0.24) int32(0)
+assert double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)
+assert double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)double(0.24) int32(0) int32(0) int32(0) int32(0) int32(0) int32(0)

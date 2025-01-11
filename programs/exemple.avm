@@ -1,16 +1,13 @@
-push   int32(42)
-push   int8(42)
-push   int16(42)
-push    float(340282346638528859811704183484516925440.000000)
-push   int32(2147483648)
-push   int32(999999999999999999999999999)
-add
- push  					float(44.55)
-mul
-push double(42.42)
-push int32(42)
+; test add
+push int8(0)
+push float(42.42)
 dump
- pop 	 	 	
-assert 		 	double(42.42)
-push   double(1797693.000000)
+add
+dump
+assert float(42.42)
+push int8(-1)
+add
+dump
+assert float(41.42)
+pop
 exit

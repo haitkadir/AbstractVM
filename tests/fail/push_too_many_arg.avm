@@ -1,0 +1,4 @@
+; push with too many arguments
+push int8(0) int16(0)
+push int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)
+push int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)

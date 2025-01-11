@@ -4,6 +4,7 @@
 #include <regex>
 #include "../include/VM.hpp"
 #include "../include/Exceptions.hpp"
+#include <iomanip>
 
 /*----------------------------------------------------------------------------*/
 VM::VM () {}
@@ -95,7 +96,7 @@ void    VM::Assert(Token &token){
 
         if (!this->_stack.size() 
             || (this->_stack.top()->getPrecision() != newOperand->getPrecision() 
-                || this->_stack.top()->toString() != newOperand->toString())){
+                || std::stod(this->_stack.top()->toString()) != std::stod(newOperand->toString()))){
             delete newOperand;
             throw   AssertException("");
         }
@@ -114,7 +115,15 @@ void    VM::Assert(Token &token){
 void    VM::Dump() const {
     std::stack<const IOperand *>    temp = this->_stack;
     while(!temp.empty()){
-        std::cout << static_cast<double>(std::stod(temp.top()->toString())) << std::endl;
+        if (temp.top()->getPrecision() == Double){
+            std::cout << std::fixed << std::setprecision(15);
+            std::cout << temp.top()->toString() << std::endl;
+        } else if(temp.top()->getPrecision() == Float){
+            std::cout << std::fixed << std::setprecision(7);
+            std::cout << temp.top()->toString() << std::endl;
+        } else {
+            std::cout << temp.top()->toString() << std::endl;
+        }
         temp.pop();
     }
 }

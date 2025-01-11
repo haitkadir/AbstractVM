@@ -1,0 +1,6 @@
+push int8(2)
+push int8(2)
+;rep
+dump
+exit
+;;

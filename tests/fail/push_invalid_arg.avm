@@ -1,0 +1,6 @@
+; push with invalid arguments
+push hello
+push int
+push double(double)
+push int16(
+push float(42) ; invalid because float and double require [\d+.\d+]

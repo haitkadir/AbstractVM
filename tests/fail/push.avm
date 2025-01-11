@@ -1,0 +1,14 @@
+; push with invalid arguments
+push hello
+push int
+push double(double)
+push int16(
+push float(42) ; invalid because float and double require [\d+.\d+]
+; push with no arguments
+push
+push;int8(16)
+push ;int8(16)
+; push with too many arguments
+push int8(0) int16(0)
+push int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)
+push int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)int8(0) int16(0) int16(0) int16(0) int16(0) int16(0) int16(0)

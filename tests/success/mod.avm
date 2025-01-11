@@ -1,0 +1,11 @@
+; test mod
+push int8(0)
+push float(42.42)
+dump
+mod
+assert float(0.0)
+push int8(-1)
+mod
+assert float(0.0)
+pop
+exit

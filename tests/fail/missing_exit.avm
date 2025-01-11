@@ -1,0 +1,5 @@
+push int16(1)
+push int32(42)
+mul
+dump
+; missing exit here
