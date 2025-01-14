@@ -1,23 +1,27 @@
-; test add
-; push int8(0)
-; push float(42.42)
-; dump
-; add
-; dump
-; assert float(42.42)
-; push int8(-1)
-; add
-; dump
-; assert float(41.42)
-; pop
-; exit
+;push float(340282346638528859811704183484516925440.0)
+;push float(15262652562525545451521555655254.0)
+;add
 
-push int32(2147483647)
-;push int16(32767)
-push int8(1)
-add    
+;push int8(2)
+;push int8(126)
+;mul
+;push int16(2)
+;push int16(32766)
+;mul
+push int32(-2147483648)
+push int32(1)
+sub
 dump
-; pop
-; mul 
+exit
 
+push int8(1)
+push int8(126)
+add
+push int16(1)
+push int16(32766)
+add
+push int32(1)
+push int32(2147483646)
+add
+dump
 exit

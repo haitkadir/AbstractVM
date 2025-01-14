@@ -80,22 +80,24 @@ public:
             case Int8 ... Int32:{
                 int int_v1 = (std::stoi(this->toString()));
                 int int_v2 = (std::stoi(rhs.toString()));
+                checkOverflow<long long>((static_cast<long long>(int_v1) + int_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(int_v1 + int_v2));
                 break;
             }
             case Float:{
                 float float_v1 = (std::stof(this->toString()));
                 float float_v2 = (std::stof(rhs.toString()));
+                checkOverflow<double>((static_cast<double>(float_v1) + float_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(float_v1 + float_v2));
                 break;
             }
             case Double:{
                 double double_v1 = (std::stod(this->toString()));
                 double double_v2 = (std::stod(rhs.toString()));
+                checkOverflow<long double>((static_cast<long double>(double_v1) + double_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(double_v1 + double_v2));
                 break;
             }
-            
             default:{
 
                 throw   VMException("Uknown type on + operand");
@@ -117,18 +119,21 @@ public:
             case Int8 ... Int32:{
                 int int_v1 = (std::stoi(this->toString()));
                 int int_v2 = (std::stoi(rhs.toString()));
+                checkOverflow<long long>((static_cast<long long>(int_v1) - int_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(int_v1 - int_v2));
                 break;
             }
             case Float:{
                 float float_v1 = (std::stof(this->toString()));
                 float float_v2 = (std::stof(rhs.toString()));
+                checkOverflow<double>((static_cast<double>(float_v1) - float_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(float_v1 - float_v2));
                 break;
             }
             case Double:{
                 double double_v1 = (std::stod(this->toString()));
                 double double_v2 = (std::stod(rhs.toString()));
+                checkOverflow<long double>((static_cast<long double>(double_v1) - double_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(double_v1 - double_v2));
                 break;
             }
@@ -153,18 +158,21 @@ public:
             case Int8 ... Int32:{
                 int int_v1 = (std::stoi(this->toString()));
                 int int_v2 = (std::stoi(rhs.toString()));
+                checkOverflow<long long>((static_cast<long long>(int_v1) * int_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(int_v1 * int_v2));
                 break;
             }
             case Float:{
                 float float_v1 = (std::stof(this->toString()));
                 float float_v2 = (std::stof(rhs.toString()));
+                checkOverflow<double>((static_cast<double>(float_v1) * float_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(float_v1 * float_v2));
                 break;
             }
             case Double:{
                 double double_v1 = (std::stod(this->toString()));
                 double double_v2 = (std::stod(rhs.toString()));
+                checkOverflow<long double>((static_cast<long double>(double_v1) * double_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(double_v1 * double_v2));
                 break;
             }
@@ -193,18 +201,21 @@ public:
             case Int8 ... Int32:{
                 int int_v1 = (std::stoi(this->toString()));
                 int int_v2 = (std::stoi(rhs.toString()));
+                checkOverflow<long long>((static_cast<long long>(int_v1) / int_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(int_v1 / int_v2));
                 break;
             }
             case Float:{
                 float float_v1 = (std::stof(this->toString()));
                 float float_v2 = (std::stof(rhs.toString()));
+                checkOverflow<double>((static_cast<double>(float_v1) / float_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(float_v1 / float_v2));
                 break;
             }
             case Double:{
                 double double_v1 = (std::stod(this->toString()));
                 double double_v2 = (std::stod(rhs.toString()));
+                checkOverflow<long double>((static_cast<long double>(double_v1) / double_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(double_v1 / double_v2));
                 break;
             }
@@ -233,18 +244,21 @@ public:
             case Int8 ... Int32:{
                 int int_v1 = (std::stoi(this->toString()));
                 int int_v2 = (std::stoi(rhs.toString()));
+                checkOverflow<long long>((static_cast<long long>(int_v1) % int_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(int_v1 % int_v2));
                 break;
             }
             case Float:{
                 float float_v1 = (std::stof(this->toString()));
                 float float_v2 = (std::stof(rhs.toString()));
+                checkOverflow<double>(std::fmod(static_cast<double>(float_v1), float_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(std::fmodf(float_v1, float_v2)));
                 break;
             }
             case Double:{
                 double double_v1 = (std::stod(this->toString()));
                 double double_v2 = (std::stod(rhs.toString()));
+                checkOverflow<long double>(fmodl(static_cast<long double>(double_v1), double_v2), resultType);
                 newOperand = factory.createOperand(resultType, std::to_string(std::fmod(double_v1, double_v2)));
                 break;
             }
@@ -261,6 +275,51 @@ public:
     /*----------------------------------------------------------------------------*/
     std::string const& toString() const override {
         return _strValue;
+    }
+
+private:
+    /*----------------------------------------------------------------------------*/
+    template <typename P>
+    void    checkOverflow(P input, eOperandType type) const{
+        try{
+            switch (type)
+            {
+            case Int8:{
+                int int8Value = std::stoi(std::to_string(input));
+          if (int8Value < INT8_MIN || int8Value > INT8_MAX)
+                    throw   OverfflowException("int8 overflow");
+                break;
+            }
+            case Int16:{
+                int int16Value = std::stoi(std::to_string(input));
+                if (int16Value < INT16_MIN || int16Value > INT16_MAX)
+                    throw   OverfflowException("int16 overflow");
+                break;
+            }
+            case Int32:{
+                std::stoi(std::to_string(input));
+                break;
+            }
+            case Float:{
+                float floatValue = std::stod(std::to_string(input));
+                if (std::isinf(floatValue)) {
+                    throw   OverfflowException("overflow");
+                }
+                break;
+            }
+            case Double:{
+                double doubleValue = std::stod(std::to_string(input));
+                if (std::isinf(doubleValue)) {
+                    throw   OverfflowException("overflow");
+                }
+                break;
+            }
+            default:
+                break;
+            }
+        }catch(std::out_of_range &){
+            throw   OverfflowException("overflow");
+        }
     }
 
 };

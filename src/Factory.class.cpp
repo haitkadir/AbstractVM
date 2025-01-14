@@ -74,25 +74,20 @@ bool OperandFactory::isoverflow(eOperandType type, const std::string& input) con
         switch (type) {
             case Int8: {
                 int int8value = std::stoi(input);
-                if (int8value < std::numeric_limits<int8_t>::min() || int8value > std::numeric_limits<int8_t>::max()) {
+                if (int8value < INT8_MIN || int8value > INT8_MAX) {
                     return true;
                 }
                 break;
             }
             case Int16: {
                 int int16value = std::stoi(input);
-                if (int16value < std::numeric_limits<int16_t>::min() || int16value > std::numeric_limits<int16_t>::max()) {
+                if (int16value < INT16_MIN || int16value > INT16_MAX) {
                     return true;
                 }
                 break;
             }
             case Int32: {
-                std::cout << "I'm here before-------------------" << input << std::endl;
-                float intvalue = std::stof(input);
-                std::cout << "I'm here after-------------------" << (intvalue > std::numeric_limits<int32_t>::max()) << std::endl;
-                if (intvalue < std::numeric_limits<int32_t>::min() || intvalue > std::numeric_limits<int32_t>::max()) {
-                    return true;
-                }
+                std::stoi(input);
                 break;
             }
             case Float: {
