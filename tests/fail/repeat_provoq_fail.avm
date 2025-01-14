@@ -1,0 +1,11 @@
+push int8(10)
+push int8(10)
+push int8(10)
+push int8(10)
+pop
+pop
+pop
+pop
+pop
+pop
+exit

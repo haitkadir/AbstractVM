@@ -1,5 +1,5 @@
 ; test dump
-dump; stack vide
+dump ; stack vide
 push int8(12)
 push int16(123)
 push int32(-123123)

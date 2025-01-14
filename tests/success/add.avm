@@ -1,13 +1,13 @@
 ; test add
 push int8(0)
-push float(42.4199982)
+push float(42.42)
 dump
 add
 dump
-assert float(42.4199982)
+assert float(42.42)
 push int8(-1)
 add
 dump
-assert float(41.4199982)
+assert float(41.42)
 pop
 exit

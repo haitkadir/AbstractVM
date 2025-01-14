@@ -1,6 +1,17 @@
 push int8(2)
 push int8(2)
-;rep
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
+push int8(2)
 dump
 exit
-;;

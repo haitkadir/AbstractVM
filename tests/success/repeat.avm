@@ -5,14 +5,12 @@ push int8(1)
 push int8(1)
 push int8(1)
 push int8(1)
-;rep 5 ; equ to push int(8) 5 time
-dump ; must have 6 * int8(1) on stack
+dump
 add
 add
 add
 add
 add
-;rep 4 ; equ to mul 5 time
-dump ; must have 6 on stack
+dump
 assert int8(6)
 exit
