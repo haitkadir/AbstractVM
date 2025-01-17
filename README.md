@@ -63,12 +63,16 @@ Uses a factory method to create operands dynamically based on type.
 ### Compilation
 
 Run the following:  
+```shell
 make
+```
 
 ### Running the VM
 
 Provide a program file or use standard input:  
+```shell
 ./avm program.avm
+```
 
 Example of standard input:
 ```assembly  
